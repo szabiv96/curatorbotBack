@@ -1,0 +1,96 @@
+API KEY = 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
+
+What kind of art does Varga Szabolcs Lajos experiment with?
+Answer: Varga Szabolcs Lajos experiments with traditional painting, multimedia (photography, video, internet art), fine arts, and applied arts (publishing and website design).
+
+Why does he experiment with various art genres?
+Answer: He experiments with various art genres because part of him has always been interested in functional knowledge and the sentimental and sensitive self-expression of fine arts also belongs to him.
+
+How does he approach his creative activity?
+Answer: He approaches his creative activity as project-based, where he chooses the genre and tools based on the concept and either masters new practical knowledge himself or collaborates with other creators if necessary.
+
+What are some of the themes explored in his artworks?
+Answer: Some of the themes explored in his artworks are his own identity, particularly his sexual and gender identity, and getting to know himself.
+
+What was his first approach to exploring his identity in his art?
+Answer: His first approach to exploring his identity in his art was through painting, where he created fictional figures and narrated his own experiences and observations into a story.
+
+
+
+openai api fine_tunes.create -t C:/Users/irmus/Desktop/curatorbot-try03/backend/szabolcs.jsonl -m davinci
+
+
+davinci:ft-personal-2023-02-13-22-49-32
+
+ft-iZsVjyUyF7KhfAmfP2Q70hqx
+
+
+{"prompt": "here comes the questions", "completion": "here comes the answear" }
+
+openai api fine_tunes.list
+
+
+
+file-yKeyBU9Ik37EKi1M8pjz71sA
+file-G95hG3NqvENeeKN8Vl4hyBUX
+
+
+DOLGOK HOLNAPRA EL NE FLEEJTSEM!
+
+- UPLOAD AGAIN THE TRAINING FILE
+- CREATE A VALIDATION FILE ALSO
+- USE THE API REQUEST RESPONSE NODEJS THINGS BC YOU ARE UNDERSTAND THAT BETTER THEN THE TERMINAL
+
+
+npx gltfjsx untitled.glb
+
+Reduce the learning rate: A lower learning rate can help your model focus more on the training data and avoid overfitting. However, it may also increase the number of training iterations needed to achieve good performance.
+
+Increase the batch size: Increasing the batch size during training can help your model generalize better and rely more on the training data. However, a larger batch size may also require more memory and processing power.
+
+Use a smaller model architecture: A smaller model architecture can help your model focus more on the training data by reducing the number of parameters it has to learn. However, this may also limit its ability to generalize to new data.
+
+Increase the weight of the loss function: By increasing the weight of the loss function during training, you can place more emphasis on the training data and less on the model's pre-existing knowledge. This can be done by setting the weight of the loss function to a higher value, such as 2 or 3.
+
+Increase the number of training epochs: Increasing the number of training epochs can allow the model to learn more from the training data and rely more on it. However, this may also increase the risk of overfitting.
+
+Use a smaller portion of the pre-training data: You can fine-tune your model on a smaller portion of the pre-training data to help it focus more on the training data. This can be done by specifying a smaller value for the --num_train_epochs flag during training.
+
+
+
+
+
+
+
+
+const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetch('https://api.openai.com/v1/fine-tunes', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer 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'
+      }
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        setData(data);
+      })
+      .catch(error => {
+        setError(error);
+      });
+  }, []);
+
+
+
+
+
+
+

@@ -1,0 +1,59 @@
+To play a Three.js 3D model's animation while the audio is playing and stop the animation when the audio stops, you can use the Web Audio API to synchronize the animation with the audio playback. The Web Audio API provides an accurate timing system that allows you to precisely synchronize the animation with the audio.
+
+Here's an example code snippet that demonstrates how to synchronize a Three.js animation with an audio file using the Web Audio API:
+
+javascript
+Copy code
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { useFrame, useLoader } from 'react-three-fiber';
+import { useAudio } from 'react-use';
+
+function Model(props) {
+  const gltf = useLoader(GLTFLoader, props.url);
+
+  const { play, pause, stop, duration, position } = useAudio({
+    src: props.audioUrl,
+    format: ['mp3', 'wav', 'ogg'],
+    autoplay: false,
+  });
+
+  const mixer = new THREE.AnimationMixer();
+
+  gltf.animations.forEach((clip) => {
+    const action = mixer.clipAction(clip);
+    action.play();
+  });
+
+  useFrame((state, delta) => {
+    mixer.update(delta);
+  });
+
+  // Start the animation and audio playback
+  useEffect(() => {
+    play();
+  }, [play]);
+
+  // Stop the animation and audio playback when the audio ends
+  useEffect(() => {
+    if (position >= duration) {
+      mixer.stopAllAction();
+      stop();
+    }
+  }, [position, duration, mixer, stop]);
+
+  return (
+    <group {...props}>
+      <primitive object={gltf.scene} />
+    </group>
+  );
+}
+In this example, we create a Model component that loads a 3D model from a GLTF file using the GLTFLoader from Three.js. We also use the useAudio hook from the react-use library to load and play an audio file. We then create a THREE.AnimationMixer and play all the animation clips in the 3D model.
+
+We use the useFrame hook from react-three-fiber to update the animation mixer on every frame. This updates the animation according to the time elapsed since the previous frame.
+
+We start the animation and audio playback by calling the play() method of the useAudio hook in a useEffect hook with an empty dependency array. This ensures that the play() method is only called once when the component is mounted.
+
+We stop the animation and audio playback when the audio ends by checking if the position of the audio is greater than or equal to the duration of the audio. If it is, we stop all animation actions using the stopAllAction() method of the animation mixer, and stop the audio using the stop() method of the useAudio hook.
+
+Note that you'll need to pass the url and audioUrl props to the Model component with the URL of the 3D model and the audio file, respectively. Also, make sure that your audio file is in a format supported by the Web Audio API (e.g., MP3, WAV, or OGG).
